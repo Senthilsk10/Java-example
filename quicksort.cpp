@@ -3,14 +3,14 @@
 
 using namespace std;
 
-void printArray(const vector<int>& arr) {
+void printArray(int& arr[]) {
     for (int i : arr) {
         cout << i << " ";
     }
     cout << endl;
 }
 
-int partition(vector<int>& arr, int low, int high) {
+int partition(int& arr[] int low, int high) {
     int pivot = arr[high];
     int i = low - 1;
 
@@ -33,7 +33,7 @@ int partition(vector<int>& arr, int low, int high) {
     return i + 1;
 }
 
-void quickSort(vector<int>& arr, int low, int high) {
+void quickSort(int& arr[], int low, int high) {
     if (low < high) {
         int partitionIndex = partition(arr, low, high);
 
@@ -46,7 +46,7 @@ void quickSort(vector<int>& arr, int low, int high) {
 }
 
 int main() {
-    vector<int> arr = {12, 7, 4, 9, 5, 3, 6};
+    int& arr[7] = {12, 7, 4, 9, 5, 3, 6};
     int n = arr.size();
 
     cout << "Original array: ";
