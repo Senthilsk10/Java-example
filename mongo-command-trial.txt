@@ -1,0 +1,287 @@
+
+test> use temp
+switched to db temp
+temp> db.data.insert({name:"senthil",
+... age:19,
+... marks529})
+ReferenceError: marks529 is not defined
+temp> db.data.insert({ name: "senthil", age: 19, marks:529 })
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('65d4a8c6bd211b982aaad84a') }
+}
+temp> db.data.insert({ name: "sharun", age: 18, marks:545 })
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('65d4a8d5bd211b982aaad84b') }
+}
+temp> db.data.insert({ name: "arun", age: 18, marks:489 })
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('65d4a8e3bd211b982aaad84c') }
+}
+temp> db.data.insert({ name: "kamlalesh", age: 20, marks:501 })
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('65d4a8f5bd211b982aaad84d') }
+}
+temp> db.data.find({age:{$nin:[19,18]}})
+[
+  {
+    _id: ObjectId('65d4a8f5bd211b982aaad84d'),
+    name: 'kamlalesh',
+    age: 20,
+    marks: 501
+  }
+]
+temp> db.data.find({age:{$nin:[19,20]}})
+[
+  {
+    _id: ObjectId('65d4a8d5bd211b982aaad84b'),
+    name: 'sharun',
+    age: 18,
+    marks: 545
+  },
+  {
+    _id: ObjectId('65d4a8e3bd211b982aaad84c'),
+    name: 'arun',
+    age: 18,
+    marks: 489
+  }
+]
+temp> db.data.find({age:{$in:[19,20]}})
+[
+  {
+    _id: ObjectId('65d4a8c6bd211b982aaad84a'),
+    name: 'senthil',
+    age: 19,
+    marks: 529
+  },
+  {
+    _id: ObjectId('65d4a8f5bd211b982aaad84d'),
+    name: 'kamlalesh',
+    age: 20,
+    marks: 501
+  }
+]
+temp> db.data.find({{$and:[{age:18},{marks:{$gt:500}}]})
+Uncaught:
+SyntaxError: Unexpected token (1:14)
+
+> 1 | db.data.find({{$and:[{age:18},{marks:{$gt:500}}]})
+    |               ^
+  2 |
+
+temp> db.data.find({$and:[{age:18},{marks:{$gt:500}}]})
+[
+  {
+    _id: ObjectId('65d4a8d5bd211b982aaad84b'),
+    name: 'sharun',
+    age: 18,
+    marks: 545
+  }
+]
+temp> db.data.find({$and:[{age:{$gt:18}},{marks:{$gt:500}}]})
+[
+  {
+    _id: ObjectId('65d4a8c6bd211b982aaad84a'),
+    name: 'senthil',
+    age: 19,
+    marks: 529
+  },
+  {
+    _id: ObjectId('65d4a8f5bd211b982aaad84d'),
+    name: 'kamlalesh',
+    age: 20,
+    marks: 501
+  }
+]
+temp> db.data.find({$and:[{age:{$gt:18}},{marks:{$gt:500}}]}).limit(2)
+[
+  {
+    _id: ObjectId('65d4a8c6bd211b982aaad84a'),
+    name: 'senthil',
+    age: 19,
+    marks: 529
+  },
+  {
+    _id: ObjectId('65d4a8f5bd211b982aaad84d'),
+    name: 'kamlalesh',
+    age: 20,
+    marks: 501
+  }
+]
+temp> db.data.find({$or:[{age:{$gt:18}},{marks:{$gt:500}}]})
+[
+  {
+    _id: ObjectId('65d4a8c6bd211b982aaad84a'),
+    name: 'senthil',
+    age: 19,
+    marks: 529
+  },
+  {
+    _id: ObjectId('65d4a8d5bd211b982aaad84b'),
+    name: 'sharun',
+    age: 18,
+    marks: 545
+  },
+  {
+    _id: ObjectId('65d4a8f5bd211b982aaad84d'),
+    name: 'kamlalesh',
+    age: 20,
+    marks: 501
+  }
+]
+temp> db.data.find({$or:[{age:18},{marks:{$gt:500}}]})
+[
+  {
+    _id: ObjectId('65d4a8c6bd211b982aaad84a'),
+    name: 'senthil',
+    age: 19,
+    marks: 529
+  },
+  {
+    _id: ObjectId('65d4a8d5bd211b982aaad84b'),
+    name: 'sharun',
+    age: 18,
+    marks: 545
+  },
+  {
+    _id: ObjectId('65d4a8e3bd211b982aaad84c'),
+    name: 'arun',
+    age: 18,
+    marks: 489
+  },
+  {
+    _id: ObjectId('65d4a8f5bd211b982aaad84d'),
+    name: 'kamlalesh',
+    age: 20,
+    marks: 501
+  }
+]
+temp> db.data.find({$not:[{age:18},{marks:{$gt:500}}]})
+MongoServerError[BadValue]: unknown top level operator: $not. If you are trying to negate an entire expression, use $nor.
+temp> db.data.find({$nor:[{age:18},{marks:{$gt:500}}]})
+
+temp> db.data.find({$nor:[{age:18},{marks:{$lt:500}}]})
+[
+  {
+    _id: ObjectId('65d4a8c6bd211b982aaad84a'),
+    name: 'senthil',
+    age: 19,
+    marks: 529
+  },
+  {
+    _id: ObjectId('65d4a8f5bd211b982aaad84d'),
+    name: 'kamlalesh',
+    age: 20,
+    marks: 501
+  }
+]
+temp> db.data.find({name:{$exists:true}})
+[
+  {
+    _id: ObjectId('65d4a8c6bd211b982aaad84a'),
+    name: 'senthil',
+    age: 19,
+    marks: 529
+  },
+  {
+    _id: ObjectId('65d4a8d5bd211b982aaad84b'),
+    name: 'sharun',
+    age: 18,
+    marks: 545
+  },
+  {
+    _id: ObjectId('65d4a8e3bd211b982aaad84c'),
+    name: 'arun',
+    age: 18,
+    marks: 489
+  },
+  {
+    _id: ObjectId('65d4a8f5bd211b982aaad84d'),
+    name: 'kamlalesh',
+    age: 20,
+    marks: 501
+  }
+]
+temp> db.data.find({name:{$exists:false}})
+
+temp> db.data.insert({ user:"tony", age: 19, marks:529 })
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('65d4aaa9bd211b982aaad84e') }
+}
+temp> db.data.find({name:{$exists:false}})
+[
+  {
+    _id: ObjectId('65d4aaa9bd211b982aaad84e'),
+    user: 'tony',
+    age: 19,
+    marks: 529
+  }
+]
+temp> db.data.find({name:{$type:2}})
+[
+  {
+    _id: ObjectId('65d4a8c6bd211b982aaad84a'),
+    name: 'senthil',
+    age: 19,
+    marks: 529
+  },
+  {
+    _id: ObjectId('65d4a8d5bd211b982aaad84b'),
+    name: 'sharun',
+    age: 18,
+    marks: 545
+  },
+  {
+    _id: ObjectId('65d4a8e3bd211b982aaad84c'),
+    name: 'arun',
+    age: 18,
+    marks: 489
+  },
+  {
+    _id: ObjectId('65d4a8f5bd211b982aaad84d'),
+    name: 'kamlalesh',
+    age: 20,
+    marks: 501
+  }
+]
+temp> db.data.find({name:{$type:1}})
+
+temp> db.data.find({name:{$type:0}})
+MongoServerError[BadValue]: Invalid numerical type code: 0. Instead use {$exists:false}.
+temp> db.data.find({name:{$type:2}})
+[
+  {
+    _id: ObjectId('65d4a8c6bd211b982aaad84a'),
+    name: 'senthil',
+    age: 19,
+    marks: 529
+  },
+  {
+    _id: ObjectId('65d4a8d5bd211b982aaad84b'),
+    name: 'sharun',
+    age: 18,
+    marks: 545
+  },
+  {
+    _id: ObjectId('65d4a8e3bd211b982aaad84c'),
+    name: 'arun',
+    age: 18,
+    marks: 489
+  },
+  {
+    _id: ObjectId('65d4a8f5bd211b982aaad84d'),
+    name: 'kamlalesh',
+    age: 20,
+    marks: 501
+  }
+]
+temp> db.data.find({name:{$type:3}})
+
+temp> db.data.find({$text:{$search:"senthil"}})
+MongoServerError[IndexNotFound]: text index required for $text query
+temp>
