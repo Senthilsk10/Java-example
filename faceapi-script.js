@@ -1,9 +1,9 @@
 const imageUpload = document.getElementById('imageUpload')
 const message = document.getElementById('message');
 Promise.all([
-  faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-  faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-  faceapi.nets.ssdMobilenetv1.loadFromUri('/models')
+  faceapi.nets.faceRecognitionNet.loadFromUri('https://raw.githubusercontent.com/Senthilsk10/face-api-web/main/models/'),
+  faceapi.nets.faceLandmark68Net.loadFromUri('https://raw.githubusercontent.com/Senthilsk10/face-api-web/main/models/'),
+  faceapi.nets.ssdMobilenetv1.loadFromUri('https://raw.githubusercontent.com/Senthilsk10/face-api-web/main/models/')
 ]).then(start)
 
 async function start() {
@@ -21,32 +21,23 @@ async function start() {
     if (image) image.remove()
     if (canvas) canvas.remove()
     image = await faceapi.bufferToImage(imageUpload.files[0])
-    //container.append(image)
-    //canvas = faceapi.createCanvasFromMedia(image)
-    //container.append(canvas)
+    container.append(image)
+    canvas = faceapi.createCanvasFromMedia(image)
+    container.append(canvas)
     const displaySize = { width: image.width, height: image.height }
-    //faceapi.matchDimensions(canvas, displaySize)
+    faceapi.matchDimensions(canvas, displaySize)
     const detections = await faceapi.detectAllFaces(image).withFaceLandmarks().withFaceDescriptors()
     const resizedDetections = faceapi.resizeResults(detections, displaySize)
     const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
     const queryParams = getQueryParams(queryString);
     const key = queryParams['key'];
-    console.log(results)
-    const dl = document.createElement('dl'); // Create a definition list
-
+    postData(results,key)
+    location.reload();
     results.forEach((result, i) => {
-        dl.innerHTML += `<dt>Serial Number ${i + 1}</dt><dd>${result.toString()}</dd>`; // Populate with result data
-    });
-
-    document.body.appendChild(dl); // Append the definition list to the body or any other desired container
-
-    //postData(results,key)
-    //results.forEach((result, i) => {
-    //  console.log(result)
-    //  //const box = resizedDetections[i].detection.box
-    //  //const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
-    //  //drawBox.draw(canvas)
-    //})
+      const box = resizedDetections[i].detection.box
+      const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
+      drawBox.draw(canvas)
+    })
   })
 }
 
@@ -84,20 +75,26 @@ const getQueryParams = (queryString) => {
 };
 
 
-function postData(data,key) {
-  const url = 'http://127.0.0.1:8000/staffs/get_result';
-  return fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      
+function postData(results, key) {
+  const currentURL = window.location.href;
+  const domain = new URL(currentURL).hostname;
+  const url = domain+'/staffs/get_result/';
+  const labels = results.map(result => result.label); // Extract labels from results
+  console.log(labels);
+  $.ajax({
+    url: url,
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify({ "key": key, "labels": labels }), // Include key and labels in the JSON payload
+    success: function(response) {
+      console.log('Success:', response);
     },
-    body: JSON.stringify({"data":data,"key":key})
-  })
-  .then(response => response.json()) 
-  .catch(error => {
-    console.error('Error:', error);
+    error: function(error) {
+      console.error('Error:', error);
+    }
   });
 }
+
+
 
 
