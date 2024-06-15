@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usage Tracker</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f8e9;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0;
+    }
+    button {
+      display: block;
+      margin-top: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Usage Tracker</h1>
+  <form id="usageForm">
+    <label>
+      User:
+      <input type="text" id="user" required />
+    </label>
+    <label>
+      System:
+      <select id="system" required>
+        <option value="System A">System A</option>
+        <option value="System B">System B</option>
+        <option value="System C">System C</option>
+      </select>
+    </label>
+    <label>
+      Start Time:
+      <input type="time" id="startTime" required />
+    </label>
+    <button type="submit">Add Usage</button>
+  </form>
+
+  <form id="modifyForm" class="hidden">
+    <label>
+      User:
+      <input type="text" id="modifyUser" required />
+    </label>
+    <label>
+      System:
+      <select id="modifySystem" required>
+        <option value="System A">System A</option>
+        <option value="System B">System B</option>
+        <option value="System C">System C</option>
+      </select>
+    </label>
+    <label>
+      Start Time:
+      <input type="time" id="modifyStartTime" required />
+    </label>
+    <label>
+      End Time:
+      <input type="time" id="modifyEndTime" required />
+    </label>
+    <button type="submit">Modify Usage</button>
+    <button type="button" id="deleteButton">Delete Usage</button>
+  </form>
+
+  <div id="chart_div" style="width: 100%; height: 400px;"></div>
+
+  <script>
+    const systems = ["System A", "System B", "System C"];
+    let data = [];
+    let chart, dataTable;
+    let selectedRow = null;
+
+    google.charts.load('current', { packages: ['timeline'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      const container = document.getElementById('chart_div');
+      chart = new google.visualization.Timeline(container);
+      dataTable = new google.visualization.DataTable();
+
+      dataTable.addColumn({ type: 'string', id: 'System' });
+      dataTable.addColumn({ type: 'string', id: 'User' });
+      dataTable.addColumn({ type: 'string', role: 'tooltip' });
+      dataTable.addColumn({ type: 'date', id: 'Start' });
+      dataTable.addColumn({ type: 'date', id: 'End' });
+
+      dataTable.addRows(data);
+      
+      const options = {
+        timeline: { colorByRowLabel: true },
+        backgroundColor: '#f1f8e9',
+      };
+
+      chart.draw(dataTable, options);
+
+      google.visualization.events.addListener(chart, 'select', onChartSelect);
+    }
+
+    function onChartSelect() {
+      const selection = chart.getSelection();
+      if (selection.length > 0) {
+        selectedRow = selection[0].row;
+        const selectedData = data[selectedRow];
+        
+        document.getElementById('modifyUser').value = selectedData[1];
+        document.getElementById('modifySystem').value = selectedData[0];
+        document.getElementById('modifyStartTime').value = formatTime(selectedData[3]);
+        document.getElementById('modifyEndTime').value = formatTime(selectedData[4]);
+
+        document.getElementById('modifyForm').classList.remove('hidden');
+      }
+    }
+
+    function formatTime(date) {
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      return `${hours}:${minutes}`;
+    }
+
+    document.getElementById('usageForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const user = document.getElementById('user').value;
+      const system = document.getElementById('system').value;
+      const startTime = document.getElementById('startTime').value;
+
+      if (user && system && startTime) {
+        const [hours, minutes] = startTime.split(":");
+        const today = new Date();
+        const start = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes);
+        const end = new Date(start.getTime() + 30 * 60000);
+
+        const newDataItem = [
+          system,
+          user,
+          `${user} used ${system}`,
+          start,
+          end
+        ];
+
+        data.push(newDataItem);
+        drawChart();
+
+        document.getElementById('user').value = "";
+        document.getElementById('system').value = systems[0];
+        document.getElementById('startTime').value = "";
+      } else {
+        alert("All fields are required.");
+      }
+    });
+
+    document.getElementById('modifyForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      if (selectedRow !== null) {
+        const user = document.getElementById('modifyUser').value;
+        const system = document.getElementById('modifySystem').value;
+        const startTime = document.getElementById('modifyStartTime').value;
+        const endTime = document.getElementById('modifyEndTime').value;
+
+        if (user && system && startTime && endTime) {
+          const [startHours, startMinutes] = startTime.split(":");
+          const [endHours, endMinutes] = endTime.split(":");
+          const today = new Date();
+          const start = new Date(today.getFullYear(), today.getMonth(), today.getDate(), startHours, startMinutes);
+          const end = new Date(today.getFullYear(), today.getMonth(), today.getDate(), endHours, endMinutes);
+
+          if (end <= start) {
+            alert("End time must be after start time.");
+            return;
+          }
+
+          data[selectedRow] = [system, user, `${user} used ${system}`, start, end];
+          drawChart();
+
+          document.getElementById('modifyForm').classList.add('hidden');
+          selectedRow = null;
+        } else {
+          alert("All fields are required.");
+        }
+      }
+    });
+
+    document.getElementById('deleteButton').addEventListener('click', function() {
+      if (selectedRow !== null) {
+        data.splice(selectedRow, 1);
+        drawChart();
+
+        document.getElementById('modifyForm').classList.add('hidden');
+        selectedRow = null;
+      }
+    });
+  </script>
+</body>
+</html>
