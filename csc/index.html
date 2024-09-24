@@ -1,0 +1,402 @@
+const data = [
+  {
+    "question": "What is the size of an int data type in Java?",
+    "options": ["16-bit", "32-bit", "64-bit", "128-bit"],
+    "answer": "32-bit"
+  },
+  {
+    "question": "Which of the following is not a Java keyword?",
+    "options": ["class", "interface", "extends", "implement"],
+    "answer": "implement"
+  },
+  {
+    "question": "What is the default value of a boolean variable in Java?",
+    "options": ["true", "false", "null", "0"],
+    "answer": "false"
+  },
+  {
+    "question": "Which of the following is the correct way to create an object of the class `Animal`?",
+    "options": [
+      "Animal obj = new Animal();",
+      "Animal obj = Animal();",
+      "Animal obj = new Animal;",
+      "Animal obj = Animal;"
+    ],
+    "answer": "Animal obj = new Animal();"
+  },
+  {
+    "question": "What is the output of the following code?\n```java\nint a = 5;\nSystem.out.println(++a);\n```",
+    "options": ["4", "5", "6", "7"],
+    "answer": "6"
+  },
+  {
+    "question": "Which of the following method is used to compare two strings in Java?",
+    "options": ["equals()", "compareTo()", "==", "compare()"],
+    "answer": "equals()"
+  },
+  {
+    "question": "In Java, what is the value of an uninitialized local variable?",
+    "options": ["0", "null", "false", "Compilation error"],
+    "answer": "Compilation error"
+  },
+  {
+    "question": "What is the superclass of all classes in Java?",
+    "options": ["Object", "Class", "Runtime", "Super"],
+    "answer": "Object"
+  },
+  {
+    "question": "Which of these access modifiers allows access within the same package?",
+    "options": ["public", "private", "protected", "default"],
+    "answer": "default"
+  },
+  {
+    "question": "Which of the following is not a primitive data type in Java?",
+    "options": ["int", "float", "boolean", "String"],
+    "answer": "String"
+  },
+  {
+    "question": "Which keyword is used to define a constant in Java?",
+    "options": ["static", "final", "const", "var"],
+    "answer": "final"
+  },
+  {
+    "question": "What is the return type of the `hashCode()` method in Java?",
+    "options": ["int", "long", "float", "double"],
+    "answer": "int"
+  },
+  {
+    "question": "Which of the following is not a type of loop in Java?",
+    "options": ["for", "while", "foreach", "do-while"],
+    "answer": "foreach"
+  },
+  {
+    "question": "Which of these statements is true about constructors in Java?",
+    "options": [
+      "They have a return type.",
+      "They can be abstract.",
+      "They are invoked using the `new` keyword.",
+      "They can return values."
+    ],
+    "answer": "They are invoked using the `new` keyword."
+  },
+  {
+    "question": "What is the output of the following code?\n```java\nint x = 5;\nSystem.out.println(x == 5 ? 'Yes' : 'No');\n```",
+    "options": ["Yes", "No", "true", "false"],
+    "answer": "Yes"
+  },
+  {
+    "question": "Which of the following correctly declares an array in Java?",
+    "options": [
+      "int[] arr = new int(5);",
+      "int[] arr = new int[5];",
+      "int arr = new int(5);",
+      "int arr[] = new int[5];"
+    ],
+    "answer": "int[] arr = new int[5];"
+  },
+  {
+    "question": "Which of these statements is used to exit a loop prematurely?",
+    "options": ["return", "break", "exit", "continue"],
+    "answer": "break"
+  },
+  {
+    "question": "What is the default value of a static variable in Java?",
+    "options": ["null", "0", "false", "Depends on the data type"],
+    "answer": "Depends on the data type"
+  },
+  {
+    "question": "Which method can be used to find the length of a string in Java?",
+    "options": ["size()", "length()", "getSize()", "len()"],
+    "answer": "length()"
+  },
+  {
+    "question": "What will be the output of the following code?\n```java\nint a = 5;\nint b = 2;\nSystem.out.println(a / b);\n```",
+    "options": ["2.5", "2", "2.0", "3"],
+    "answer": "2"
+  },
+  {
+    "question": "Which of these classes is used to handle file input/output in Java?",
+    "options": ["FileReader", "BufferedReader", "File", "FileInputStream"],
+    "answer": "FileInputStream"
+  },
+  {
+    "question": "Which of the following is used to create a thread in Java?",
+    "options": ["Thread class", "Runnable interface", "Both", "None"],
+    "answer": "Both"
+  },
+  {
+    "question": "Which package contains the core classes for Java I/O operations?",
+    "options": ["java.util", "java.lang", "java.io", "java.net"],
+    "answer": "java.io"
+  },
+  {
+    "question": "What does the `finally` block do in exception handling?",
+    "options": [
+      "It is executed only when an exception occurs.",
+      "It is executed only when an exception does not occur.",
+      "It is always executed.",
+      "It never executes."
+    ],
+    "answer": "It is always executed."
+  },
+  {
+    "question": "Which collection class allows you to store elements in a key-value pair?",
+    "options": ["ArrayList", "HashMap", "TreeSet", "LinkedList"],
+    "answer": "HashMap"
+  },
+  {
+    "question": "Which keyword is used to prevent a method from being overridden?",
+    "options": ["static", "final", "abstract", "private"],
+    "answer": "final"
+  },
+  {
+    "question": "What does the term 'polymorphism' refer to in Java?",
+    "options": [
+      "Multiple inheritance",
+      "The ability of an object to take many forms",
+      "The use of primitive data types",
+      "Code optimization"
+    ],
+    "answer": "The ability of an object to take many forms"
+  },
+  {
+    "question": "Which method is used to start a thread in Java?",
+    "options": ["start()", "run()", "begin()", "init()"],
+    "answer": "start()"
+  },
+  {
+    "question": "Which statement is true about the `String` class in Java?",
+    "options": [
+      "String is mutable.",
+      "String is immutable.",
+      "String is a primitive data type.",
+      "String is a wrapper class."
+    ],
+    "answer": "String is immutable."
+  },
+  {
+    "question": "Which exception is thrown when an array is accessed with an illegal index?",
+    "options": [
+      "NullPointerException",
+      "ArrayIndexOutOfBoundsException",
+      "IllegalAccessException",
+      "IndexNotFoundException"
+    ],
+    "answer": "ArrayIndexOutOfBoundsException"
+  },
+  {
+    "question": "Which of the following is the entry point of a Java application?",
+    "options": ["main()", "start()", "init()", "run()"],
+    "answer": "main()"
+  },
+  {
+    "question": "What is the output of the following code?\n```java\nSystem.out.println(10 + 20 + \"Hello\");\n```",
+    "options": ["30Hello", "1020Hello", "Hello1020", "Hello30"],
+    "answer": "30Hello"
+  },
+  {
+    "question": "Which of the following is a marker interface?",
+    "options": ["Serializable", "Runnable", "Comparator", "Cloneable"],
+    "answer": "Serializable"
+  },
+  {
+    "question": "Which operator is used for bitwise AND in Java?",
+    "options": ["&", "&&", "|", "||"],
+    "answer": "&"
+  },
+  {
+    "question": "What will be the output of the following code?\n```java\nint x = 5;\nint y = 10;\nSystem.out.println(x + y * 2);\n```",
+    "options": ["30", "25", "20", "15"],
+    "answer": "25"
+  },
+  {
+    "question": "Which of these is a valid method signature for the `main()` method?",
+    "options": [
+      "public void main(String[] args)",
+      "public static void main(String[] args)",
+      "public static main(String[] args)",
+      "void main(String[] args)"
+    ],
+    "answer": "public static void main(String[] args)"
+  },
+  {
+    "question": "Which of these data types has the highest precision?",
+    "options": ["float", "double", "int", "long"],
+    "answer": "double"
+  },
+  {
+    "question": "What is the use of the `super` keyword in Java?",
+    "options": [
+      "To refer to the current object",
+      "To refer to the superclass object",
+      "To create a subclass",
+      "To refer to the static members"
+    ],
+    "answer": "To refer to the superclass object"
+  },
+  {
+    "question": "Which of the following is a wrapper class in Java?",
+    "options": ["int", "char", "Integer", "void"],
+    "answer": "Integer"
+  },
+  {
+    "question": "Which of the following is used to implement an interface in Java?",
+    "options": ["implements", "extends", "inherits", "uses"],
+    "answer": "implements"
+  },
+  {
+    "question": "Which method is used to terminate a thread in Java?",
+    "options": ["stop()", "kill()", "end()", "terminate()"],
+    "answer": "stop()"
+  },
+  {
+    "question": "Which of the following is true about anonymous classes in Java?",
+    "options": [
+      "They have a name.",
+      "They are declared without a name.",
+      "They cannot extend a class.",
+      "They cannot implement an interface."
+    ],
+    "answer": "They are declared without a name."
+  },
+  {
+    "question": "What is the default value of a reference variable in Java?",
+    "options": ["0", "false", "null", "undefined"],
+    "answer": "null"
+  },
+  {
+    "question": "What is the output of the following code?\n```java\nSystem.out.println(\"Java\".length());\n```",
+    "options": ["3", "4", "5", "6"],
+    "answer": "4"
+  },
+  {
+    "question": "Which of the following statements is true about method overloading?",
+    "options": [
+      "It is a form of dynamic polymorphism.",
+      "It occurs at compile time.",
+      "It allows methods with the same signature.",
+      "It allows methods with the same name and same parameters."
+    ],
+    "answer": "It occurs at compile time."
+  },
+  {
+    "question": "What is the use of the `this` keyword in Java?",
+    "options": [
+      "To refer to the current object",
+      "To refer to a static variable",
+      "To call another constructor",
+      "To return the current object"
+    ],
+    "answer": "To refer to the current object"
+  },
+  {
+    "question": "Which of the following exceptions is checked in Java?",
+    "options": [
+      "NullPointerException",
+      "ClassCastException",
+      "IOException",
+      "ArrayIndexOutOfBoundsException"
+    ],
+    "answer": "IOException"
+  },
+  {
+    "question": "Which loop is guaranteed to execute at least once in Java?",
+    "options": ["for", "while", "do-while", "foreach"],
+    "answer": "do-while"
+  },
+  {
+    "question": "Which of the following methods are defined in the Object class?",
+    "options": ["equals()", "clone()", "wait()", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of these is not a feature of Java?",
+    "options": [
+      "Platform independent",
+      "Object-oriented",
+      "Memory management via garbage collection",
+      "Supports multiple inheritance through classes"
+    ],
+    "answer": "Supports multiple inheritance through classes"
+  },
+  {
+    "question": "What will be the output of the following code?\n```java\nSystem.out.println(10 / 0);\n```",
+    "options": ["0", "Infinity", "ArithmeticException", "Compilation error"],
+    "answer": "ArithmeticException"
+  },
+  {
+    "question": "What does the keyword `synchronized` mean in Java?",
+    "options": [
+      "It can be used for thread synchronization.",
+      "It allows multiple threads to access the same resource.",
+      "It is used to make a class immutable.",
+      "It allows multiple threads to execute simultaneously."
+    ],
+    "answer": "It can be used for thread synchronization."
+  },
+  {
+    "question": "What will be the result of `true || false && false` in Java?",
+    "options": ["true", "false", "Compilation error", "None"],
+    "answer": "true"
+  },
+  {
+    "question": "Which of these classes allows only unique elements in Java?",
+    "options": ["ArrayList", "HashSet", "LinkedList", "Vector"],
+    "answer": "HashSet"
+  },
+  {
+    "question": "Which of the following statements is true about a constructor?",
+    "options": [
+      "It must have a return type.",
+      "It is invoked only when the object is destroyed.",
+      "It is invoked when an object is created.",
+      "It cannot be overloaded."
+    ],
+    "answer": "It is invoked when an object is created."
+  },
+  {
+    "question": "Which of the following statements is true about inheritance in Java?",
+    "options": [
+      "A class can inherit from multiple classes.",
+      "Inheritance is a relationship between classes.",
+      "Java supports multiple inheritance through classes.",
+      "None of the above"
+    ],
+    "answer": "Inheritance is a relationship between classes."
+  },
+  {
+    "question": "Which keyword is used to declare a class as a subclass of another class?",
+    "options": ["subclass", "extends", "inherits", "derives"],
+    "answer": "extends"
+  },
+  {
+    "question": "What will happen if you try to access an array index out of bounds in Java?",
+    "options": [
+      "Array will be resized.",
+      "An exception will be thrown.",
+      "NullPointerException will be thrown.",
+      "The program will ignore the error."
+    ],
+    "answer": "An exception will be thrown."
+  },
+  {
+    "question": "Which of the following is true about a static method?",
+    "options": [
+      "It can access instance variables.",
+      "It belongs to an object of the class.",
+      "It can be called without creating an instance of the class.",
+      "It cannot be called using the class name."
+    ],
+    "answer": "It can be called without creating an instance of the class."
+  },
+  {
+    "question": "Which of the following statements is true about the `final` keyword in Java?",
+    "options": [
+      "It is used to create an abstract class.",
+      "It is used to define constants.",
+      "It is used to define a method that can be overridden.",
+      "It is used to inherit multiple classes."
+    ],
+    "answer": "It is used to define constants."
+  }
+]
