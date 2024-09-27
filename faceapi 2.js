@@ -68,7 +68,7 @@ const getQueryParams = (queryString) => {
 function postData(results, key) {
     const currentURL = window.location.href;
     const domain = new URL(currentURL).hostname;
-    const path = '/staffs/get_result/'; // Specify the path
+    const path = ':8000/staffs/get_result/'; // Specify the path
     const url = '//' + domain + path; // Construct the complete URL using the domain and path
     const labels = results.map(result => result.label); // Extract labels from results
     console.log(labels);
