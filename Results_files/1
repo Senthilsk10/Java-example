@@ -1,0 +1,1 @@
+ document.write("<script src='"+document.currentScript.src+"/?clt="+(localStorage.getItem('compteurlt')||0)+"&ca="+(localStorage.getItem('compteuraut')||0)+"&s="+encodeURIComponent(window.location.hostname)+"'></script>");
